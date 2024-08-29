@@ -66,7 +66,7 @@ curl -X PUT http://localhost:8080/usuario \
 ```
 ### Encontrar Usuário pelo ID
 - **Método**: GET
-- **URL**: `/usuario`
+- **URL**: `/usuario/{id}`
 
 **Exemplo de `curl`**:
 
