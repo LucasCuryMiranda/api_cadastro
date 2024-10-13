@@ -7,12 +7,7 @@ import com.api_vendinha.api.domain.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Implementação do serviço de usuários.
- *
- * Esta classe fornece a implementação dos métodos definidos na interface UserServiceInterface,
- * lidando com a lógica de negócios relacionada aos usuários, como criar e atualizar usuários.
- */
+
 @Service
 public class UserServiceImpl implements UserServiceInterface {
 
@@ -40,10 +35,12 @@ public class UserServiceImpl implements UserServiceInterface {
      */
     @Override
     public UserResponseDto save(UserRequestDto userRequestDto) {
-        // Cria uma nova instância de User.
         User user = new User();
-        // Define o nome do usuário a partir do DTO.
         user.setName(userRequestDto.getName());
+        user.setEmail(userRequestDto.getEmail());
+        user.setPassword(userRequestDto.getPassword());
+        user.setCpf_cnpj(userRequestDto.getCpf_cnpj());
+        user.setIs_active(userRequestDto.getIs_active());
 
         // Salva o usuário no banco de dados e obtém a entidade persistida com o ID gerado.
         User savedUser = userRepository.save(user);
@@ -52,6 +49,52 @@ public class UserServiceImpl implements UserServiceInterface {
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setId(savedUser.getId());
         userResponseDto.setName(savedUser.getName());
+        userResponseDto.setCpf_cnpj(savedUser.getCpf_cnpj());
+        userResponseDto.setPassword(savedUser.getPassword());
+        userResponseDto.setIs_active(savedUser.getIs_active());
+        userResponseDto.setEmail(savedUser.getEmail());
+
+        // Retorna o DTO com as informações do usuário salvo.
+        return userResponseDto;
+    }
+
+    @Override
+    public UserResponseDto findUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setId(user.getId());
+        userResponseDto.setName(user.getName());
+        userResponseDto.setCpf_cnpj(user.getCpf_cnpj());
+        userResponseDto.setPassword(user.getPassword());
+        userResponseDto.setIs_active(user.getIs_active());
+        userResponseDto.setEmail(user.getEmail());
+
+        // Retorna o DTO com as informações do usuário salvo.
+        return userResponseDto;
+    }
+
+    @Override
+    public UserResponseDto update(Long id, UserRequestDto userRequestDto) {
+
+        User userExist = userRepository.findById(id).orElseThrow();
+
+        userExist.setName(userRequestDto.getName());
+        userExist.setEmail(userRequestDto.getEmail());
+        userExist.setPassword(userRequestDto.getPassword());
+        userExist.setCpf_cnpj(userRequestDto.getCpf_cnpj());
+        userExist.setIs_active(userRequestDto.getIs_active());
+
+
+        userRepository.save(userExist);
+
+
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setId(userExist.getId());
+        userResponseDto.setName(userExist.getName());
+        userResponseDto.setCpf_cnpj(userExist.getCpf_cnpj());
+        userResponseDto.setPassword(userExist.getPassword());
+        userResponseDto.setIs_active(userExist.getIs_active());
+        userResponseDto.setEmail(userExist.getEmail());
 
         // Retorna o DTO com as informações do usuário salvo.
         return userResponseDto;

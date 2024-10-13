@@ -32,6 +32,15 @@ public class User {
      *
      * Este campo é obrigatório e não pode ser nulo, refletindo a necessidade de um nome para cada usuário.
      */
-    @Column(nullable = false) // Especifica que a coluna no banco de dados não pode ser nula.
+    @Column(name = "name")
     private String name;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "cpf_cnpj")
+    private String cpf_cnpj;
+    @Column(name = "is_active")
+    private Boolean is_active;
+
 }
